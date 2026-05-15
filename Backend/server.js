@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5000;
 const SECRET_KEY = process.env.JWT_SECRET || 'flexistudy_secret_key_123';
 
 app.use(cors({
-  origin: [process.env.FRONTEND_URL, 'http://localhost:5173'].filter(Boolean),
+  origin: true, // Allow all origins for now to avoid CORS blocking during setup
   credentials: true
 }));
 app.use(express.json());
