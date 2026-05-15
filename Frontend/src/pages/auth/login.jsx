@@ -9,42 +9,24 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useApp(); 
+  const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (!email || !password) return alert("Email dan password wajib diisi");
+    
     setLoading(true);
+    setError("");
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (data.status === "sukses") {
-        login({
-          name: data.data.nama,
-          email: data.data.email,
-          kelas: data.data.kelas,
-          xp: data.data.xp,
-          level: data.data.level,
-          streak: data.data.streak,
-          progress_ipa: data.data.progress_ipa,
-          progress_b_indonesia: data.data.progress_b_indonesia,
-          progress_b_inggris: data.data.progress_b_inggris,
-        });
-
-        if (data.xp_bonus > 0) {
-          alert(`🔥 Login streak: ${data.data.streak} hari! +${data.xp_bonus} XP`);
-        }
-        navigate("/dashboard");
+      const res = await login(email, password);
+      if (res.user.role === 'admin') {
+        navigate("/admin");
       } else {
-        alert("Gagal: " + (data.detail || data.pesan));
+        navigate("/dashboard");
       }
-    } catch (error) {
-      alert("Gagal konek ke server! Pastikan FastAPI sudah jalan.");
+    } catch (err) {
+      alert("Gagal Login: " + err.message);
     } finally {
       setLoading(false);
     }

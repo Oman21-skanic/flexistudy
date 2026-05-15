@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../App';
 import './dashboard.css';
@@ -12,29 +12,19 @@ const ACTIVITIES = [
 ];
 
 const Dashboard = () => {
-  const { user, login, logout, darkMode, setDarkMode, ttsEnabled, setTtsEnabled, highContrast, setHighContrast, speak } = useApp();
+  const { user, logout, speak, activities, trackProgress, modules } = useApp();
   const navigate = useNavigate();
-  const [activities, setActivities] = useState([]);
-  useEffect(() => {
-    if (!user?.email) return;
-    fetch(`http://127.0.0.1:8000/aktivitas/${user.email}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.status === "sukses") setActivities(data.data);
-      })
-      .catch(e => console.error(e));
-  }, [user?.email]);
 
   const SUBJECTS = [
     { id: 1, emoji: '🔬', title: 'IPA', topic: 'Biologi Sel',
       progress: user?.progress_ipa || 0, xp: 210,
-      color: '#F0FDF4', route: '/materi/ipa', subject: 'ipa' },
+      color: '#E0F2FE', route: '/materi/ipa', subject: 'ipa' },
     { id: 2, emoji: '🌍', title: 'Bahasa Indonesia', topic: 'Teks Narasi',
       progress: user?.progress_b_indonesia || 0, xp: 410,
-      color: '#FFF7ED', route: '/materi/bahasa-indonesia', subject: 'b_indonesia' },
+      color: '#ECFDF5', route: '/materi/bahasa-indonesia', subject: 'b_indonesia' },
     { id: 3, emoji: '🌐', title: 'Bahasa Inggris', topic: 'Reading Comprehension',
       progress: user?.progress_b_inggris || 0, xp: 290,
-      color: '#F0F9FF', route: '/materi/bahasa-inggris', subject: 'b_inggris' },
+      color: '#FEF3C7', route: '/materi/bahasa-inggris', subject: 'b_inggris' },
   ];
 
   const [activeTab, setActiveTab] = useState('beranda');
@@ -72,21 +62,29 @@ const Dashboard = () => {
           <span className="ln">Flexi<span>Study</span></span>
         </div>
 
-        <nav className="sb-nav">
-          {[
-            ['beranda', '🏠', 'Beranda'],
-            ['materi', '📚', 'Materi'],
-            ['tts', '🔊', 'Text-to-Speech'],
-          ].map(([id, icon, label]) => (
-            <button
-              key={id}
-              className={`sb-item${activeTab === id ? ' active' : ''}`}
-              onClick={() => { setActiveTab(id); speak(label); }}
-            >
-              <span>{icon}</span> {label}
-            </button>
-          ))}
-        </nav>
+          <nav className="sb-nav">
+            {[
+              ['beranda', '🏠', 'Beranda'],
+              ['materi', '📚', 'Materi'],
+            ].map(([id, icon, label]) => (
+              <button
+                key={id}
+                className={`sb-item${activeTab === id ? ' active' : ''}`}
+                onClick={() => { setActiveTab(id); speak(label); }}
+              >
+                <span>{icon}</span> {label}
+              </button>
+            ))}
+            {user?.role === 'admin' && (
+              <button
+                className="sb-item"
+                onClick={() => { speak('Membuka Panel Admin'); navigate('/admin'); }}
+                style={{ marginTop: '12px', background: 'rgba(37, 99, 235, 0.1)', color: '#2563eb' }}
+              >
+                <span>🛡️</span> Admin Panel
+              </button>
+            )}
+          </nav>
 
         <div className="sb-user">
           <div className="sb-av">{initials}</div>
@@ -105,13 +103,6 @@ const Dashboard = () => {
             <div className="dash-sub">Ayo lanjutkan belajar hari ini</div>
           </div>
           <div className="dash-header-right">
-            <button className={`nb-icon${darkMode ? ' active' : ''}`} onClick={() => setDarkMode(v => !v)} title="Dark Mode">
-              {darkMode ? '☀️' : '🌙'}
-            </button>
-            <button className={`nb-icon${highContrast ? ' active' : ''}`} onClick={() => setHighContrast(v => !v)} title="High Contrast">🔆</button>
-            <button className={`nb-icon${ttsEnabled ? ' active' : ''}`} onClick={() => setTtsEnabled(v => !v)} title="TTS">
-              {ttsEnabled ? '🔊' : '🔇'}
-            </button>
             <Link to="/" className="dash-home-btn">← Beranda</Link>
           </div>
         </div>
@@ -179,52 +170,34 @@ const Dashboard = () => {
         {/* TAB: MATERI */}
         {activeTab === 'materi' && (
           <div className="tab-content">
-            <div className="section-title">📚 Semua Mata Pelajaran</div>
+            <div className="section-title">📚 Daftar Modul Pembelajaran</div>
             <div className="subject-grid">
-              {SUBJECTS.map(s => (
-                <div key={s.id} className="subj-card full">
-                  <div className="subj-head">
-                    <div className="subj-icon" style={{ background: s.color }}>{s.emoji}</div>
-                    <div style={{ flex: 1 }}>
-                      <div className="subj-title">{s.title}</div>
-                      <div className="subj-topic">{s.topic}</div>
+              {Array.isArray(modules) && modules.length > 0 ? (
+                modules.map((mod) => (
+                  <div
+                    key={mod.id}
+                    className="module-card"
+                    onClick={() => {
+                      speak(`${mod.title}. ${mod.topic}.`);
+                      navigate(`/module/${mod.id}`);
+                    }}
+                  >
+                    <div className="module-header">
+                      <h3>{mod.title}</h3>
+                      <p className="module-topic">{mod.topic}</p>
                     </div>
+                    <p className="module-desc">{mod.description}</p>
+                    <div className="module-meta">
+                      <span>📚 {mod.subModules} Bagian</span>
+                      <span>❓ {mod.quizPerSubModule} soal/bagian</span>
+                    </div>
+                    <button className="module-btn">
+                      Mulai Belajar →
+                    </button>
                   </div>
-                  <div className="bar"><div className="bf" style={{ width: `${s.progress}%` }}></div></div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', marginTop: '4px' }}>
-                    <span>Progress: {s.progress}%</span>
-                    <span>{s.xp} XP</span>
-                  </div>
-                  <button className="subj-btn" onClick={async () => {
-                    speak(`Melanjutkan materi ${s.title}`);
-                    try {
-                      const res = await fetch('http://127.0.0.1:8000/progress', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                          email: user.email,
-                          subject: s.subject,
-                          nilai: Math.min(100, (s.progress || 0) + 5),
-                        }),
-                      });
-                      const data = await res.json();
-                      if (data.status === "sukses") {
-                        login({
-                          ...user,
-                          xp: data.xp,
-                          level: data.level,
-                          progress_ipa: data.progress_ipa,
-                          progress_b_indonesia: data.progress_b_indonesia,
-                          progress_b_inggris: data.progress_b_inggris,
-                        });
-                      }
-                    } catch (e) { console.error(e); }
-                    navigate(s.route, { state: { title: s.title, topic: s.topic } });
-                  }}>
-                    Lanjutkan →
-                  </button>
-                </div>
-              ))}
+                ))
+              ) : null
+              }
             </div>
           </div>
         )}
@@ -253,6 +226,10 @@ const Dashboard = () => {
             </div>
           </div>
         )}
+
+        <div style={{ marginTop: '28px' }}>
+          
+        </div>
       </main>
     </div>
   );

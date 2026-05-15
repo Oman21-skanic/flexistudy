@@ -75,7 +75,7 @@ const LandingPage = () => {
       <div className="hero-wrap">
         <div>
           <div className="hbadge">
-            <span className="hdot"></span> Platform Belajar Adaptif #1
+            <span className="hdot"></span> Platform Belajar Lokal untuk Siswa dan Guru
           </div>
           <h1>Belajar <em>Fleksibel</em>,<br />Tumbuh Bersama</h1>
           <p className="hp">
@@ -119,9 +119,9 @@ const LandingPage = () => {
             </div>
             <div className="bar"><div className="bf" style={{ width: '68%' }}></div></div>
             <div className="subs">
-              <SubjectItem emoji="📗" title="Bahasa Inggris" desc="Aljabar · 72%" bg="#EEF2FF" />
-              <SubjectItem emoji="🔬" title="Ipa" desc="Biologi · 55%" bg="#F0FDF4" />
-              <SubjectItem emoji="🌍" title="Bahasa Indonesia" desc="Narasi · 83%" bg="#FFF7ED" />
+              <SubjectItem emoji="📗" title="Bahasa Inggris" desc="Aljabar · 72%" bg="#DBEAFE" />
+              <SubjectItem emoji="🔬" title="Ipa" desc="Biologi · 55%" bg="#CCFBF1" />
+              <SubjectItem emoji="🌍" title="Bahasa Indonesia" desc="Narasi · 83%" bg="#FEF3C7" />
             </div>
           </div>
           <div className="fbadge">
@@ -132,10 +132,10 @@ const LandingPage = () => {
 
       {/* Features */}
       <div className="fstrip">
-        <FeatureCard emoji="🧠" title="Pembelajaran Adaptif" desc="Materi otomatis menyesuaikan performa belajarmu" bg="#EEE8FD" speak={speak} />
-        <FeatureCard emoji="🔊" title="Text-to-Speech" desc="Dengarkan materi kapan saja untuk aksesibilitas" bg="#EFF4FF" speak={speak} />
-        <FeatureCard emoji="🎯" title="Pelacakan Progress" desc="Pantau pertumbuhan belajar dengan grafik jelas" bg="#F0FDF4" speak={speak} />
-        <FeatureCard emoji="🌙" title="Dark & High Contrast" desc="Tampilan fleksibel untuk kenyamanan mata" bg="#FFF7ED" speak={speak} />
+        <FeatureCard emoji="🧠" title="Pembelajaran Adaptif" desc="Materi otomatis menyesuaikan performa belajarmu" bg="#DBEAFE" speak={speak} />
+        <FeatureCard emoji="🔊" title="Text-to-Speech" desc="Dengarkan materi kapan saja untuk aksesibilitas" bg="#CCFBF1" speak={speak} />
+        <FeatureCard emoji="🎯" title="Pelacakan Progress" desc="Pantau pertumbuhan belajar dengan grafik jelas" bg="#FEF3C7" speak={speak} />
+        <FeatureCard emoji="🌙" title="Dark & High Contrast" desc="Tampilan fleksibel untuk kenyamanan mata" bg="#E2E8F0" speak={speak} />
       </div>
 
       {/* Steps */}

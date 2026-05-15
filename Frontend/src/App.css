@@ -38,7 +38,7 @@
 }
 
 .ln {
-  font-family: 'Fraunces', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 17px;
   font-weight: 600;
   color: var(--t);
@@ -146,7 +146,7 @@
 }
 
 h1 {
-  font-family: 'Fraunces', serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 44px;
   line-height: 1.08;
   font-weight: 600;
@@ -193,7 +193,7 @@ h1 em { font-style: italic; color: var(--p); }
 .bsl:hover { border-color: var(--p); transform: scale(1.02); }
 
 .stats { display: flex; gap: 28px; flex-wrap: wrap; }
-.sn { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 600; color: var(--t); }
+.sn { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; color: var(--t); }
 .sl { font-size: 11px; color: var(--ts); margin-top: 2px; }
 
 /* HERO RIGHT */
@@ -277,19 +277,19 @@ h1 em { font-style: italic; color: var(--p); }
 
 .sh { text-align: center; margin-bottom: 20px; }
 .sh .slabel { font-size: 10px; font-weight: 700; color: var(--ts); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
-.sh h2 { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 600; color: var(--t); margin-bottom: 8px; }
+.sh h2 { font-family: 'Poppins', sans-serif; font-size: 28px; font-weight: 700; color: var(--t); margin-bottom: 8px; }
 .sh p { font-size: 13px; color: var(--ts); }
 
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 48px; }
 .sc { background: var(--card-bg); border-radius: 14px; border: 1px solid var(--border); padding: 24px; position: relative; overflow: hidden; transition: transform .2s, background .25s; }
 .sc:hover { transform: translateY(-2px); }
-.snum { font-family: 'Fraunces', serif; font-size: 56px; font-weight: 600; color: var(--p3); position: absolute; right: 14px; top: 6px; line-height: 1; }
+.snum { font-family: 'Poppins', sans-serif; font-size: 56px; font-weight: 700; color: var(--p3); position: absolute; right: 14px; top: 6px; line-height: 1; }
 .sic { width: 40px; height: 40px; border-radius: 12px; background: var(--p3); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 12px; }
 .stitle { font-size: 14px; font-weight: 700; color: var(--t); margin-bottom: 6px; }
 .sdesc { font-size: 12px; color: var(--ts); line-height: 1.6; }
 
 .cta { background: var(--p); border-radius: 18px; padding: 48px 36px; text-align: center; margin: 0 auto 40px; max-width: 1200px; }
-.cta h2 { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 600; color: #fff; margin-bottom: 10px; }
+.cta h2 { font-family: 'Poppins', sans-serif; font-size: 30px; font-weight: 700; color: #fff; margin-bottom: 10px; }
 .cta p { font-size: 13px; color: rgba(255,255,255,.78); margin-bottom: 24px; }
 .bw { background: #fff; color: var(--p); font-size: 13px; font-weight: 700; padding: 12px 28px; border-radius: 12px; border: none; cursor: pointer; text-decoration: none; display: inline-block; transition: transform .15s, box-shadow .2s; }
 .bw:hover { transform: scale(1.04); box-shadow: 0 4px 20px rgba(0,0,0,.15); }

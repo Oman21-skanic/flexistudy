@@ -1,42 +1,38 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Auth.css';
+import { useApp } from '../../App';
+import { api } from '../../lib/apiClient';
 
 const Register = () => {
   const [namaDepan, setNamaDepan] = useState("");
   const [namaBelakang, setNamaBelakang] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [tingkatanKelas, setTingkatanKelas] = useState("SD"); // ✅ Tambah state
+  const [tingkatanKelas, setTingkatanKelas] = useState("Siswa SMK");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    if (!email || !password || !namaDepan) return alert("Harap isi semua kolom wajib");
+    
+    setLoading(true);
     try {
-      const response = await fetch('http://127.0.0.1:8000/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          nama_depan: namaDepan, 
-          nama_belakang: namaBelakang,
-          email: email, 
-          password: password,
-          tingkatan_kelas: tingkatanKelas  // ✅ Kirim ke backend
-        }),
+      await api.register({
+        name: `${namaDepan} ${namaBelakang}`.trim(),
+        email,
+        password,
+        role: 'student',
+        kelas: tingkatanKelas
       });
 
-      const data = await response.json();
-
-      if (data.status === "sukses") {
-        alert(data.pesan);
-        navigate("/login");
-      } else {
-        alert("Gagal daftar: " + data.pesan);
-      }
-
-    } catch (error) {
-      console.error(error);
-      alert("Gagal konek ke server!");
+      alert("Pendaftaran berhasil! Silakan login.");
+      navigate("/login");
+    } catch (err) {
+      alert("Gagal daftar: " + err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -109,26 +105,8 @@ const Register = () => {
             </div>
           </div>
           
-          <div className="field">
-            <label>Tingkatan Kelas</label>
-            {/* ✅ FIX: Tambah value dan onChange agar data terkirim */}
-            <select 
-              className="finput"
-              value={tingkatanKelas}
-              onChange={(e) => setTingkatanKelas(e.target.value)}
-            >
-              <option value="SD">SD</option>
-              <option value="Kelas 7 SMP">Kelas 7 SMP</option>
-              <option value="Kelas 8 SMP">Kelas 8 SMP</option>
-              <option value="Kelas 9 SMP">Kelas 9 SMP</option>
-              <option value="Kelas 10 SMA">Kelas 10 SMA</option>
-              <option value="Kelas 11 SMA">Kelas 11 SMA</option>
-              <option value="Kelas 12 SMA">Kelas 12 SMA</option>
-            </select>
-          </div>
-          
-          <button type="button" onClick={handleRegister} className="btn-full">
-            Lanjut ke Tes Awal →
+          <button type="button" onClick={handleRegister} className="btn-full" disabled={loading}>
+            {loading ? "Mendaftar..." : "Daftar Sekarang →"}
           </button>
           
           <div className="switch">

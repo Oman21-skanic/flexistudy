@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fraunces:ital,wght@0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
 /* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -6,44 +6,48 @@
 /* ── Light Theme (default) ── */
 :root,
 [data-theme="light"] {
-  --p:       #5B4FCF;
-  --p2:      #7C6EE8;
-  --p3:      #EAE8FD;
-  --p4:      #F5F3FF;
-  --t:       #0F0E1A;
-  --ts:      #6B6A7D;
-  --tb:      #F8F7FF;
+  --p:       #2563EB;
+  --p2:      #1D4ED8;
+  --p3:      #DBEAFE;
+  --p4:      #EFF6FF;
+  --t:       #0F172A;
+  --ts:      #475569;
+  --tb:      #F8FAFC;
   --w:       #ffffff;
-  --bg:      #F0EFF8;
-  --s:       #F3F2FC;
-  --border:  #E8E5F8;
+  --bg:      #F8FAFC;
+  --s:       #F1F5F9;
+  --border:  #D8E1EE;
   --card-bg: #ffffff;
   --nav-bg:  #ffffff;
-  --shadow:  0 2px 12px rgba(91,79,207,.10);
+  --shadow:  0 14px 36px rgba(15,23,42,.08);
   --green:   #059669;
   --red:     #DC2626;
-  --orange:  #EA580C;
+  --orange:  #D97706;
+  --teal:    #0F766E;
+  --accent:  #F59E0B;
 }
 
 /* ── Dark Theme ── */
 [data-theme="dark"] {
-  --p:       #7C6EE8;
-  --p2:      #9D92F0;
-  --p3:      #2A2550;
-  --p4:      #1E1B3A;
-  --t:       #F0EEFF;
-  --ts:      #9B99B2;
-  --tb:      #1E1B3A;
-  --w:       #181628;
-  --bg:      #0F0E1A;
-  --s:       #1E1B3A;
-  --border:  #2E2A50;
+  --p:       #60A5FA;
+  --p2:      #3B82F6;
+  --p3:      #1E293B;
+  --p4:      #0F172A;
+  --t:       #F8FAFC;
+  --ts:      #CBD5E1;
+  --tb:      #0F172A;
+  --w:       #111827;
+  --bg:      #0F172A;
+  --s:       #111827;
+  --border:  #263244;
   --card-bg: #181628;
   --nav-bg:  #181628;
-  --shadow:  0 2px 12px rgba(0,0,0,.40);
+  --shadow:  0 18px 40px rgba(0,0,0,.35);
   --green:   #34D399;
   --red:     #F87171;
   --orange:  #FB923C;
+  --teal:    #2DD4BF;
+  --accent:  #FBBF24;
 }
 
 /* ── High Contrast Override ── */
@@ -59,7 +63,7 @@
 }
 
 body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: var(--t);
   background: var(--bg);
   transition: background .25s, color .25s;
@@ -70,3 +74,24 @@ body {
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* Floating theme toggle */
+.theme-toggle {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 9999;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card-bg);
+  color: var(--t);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.08);
+  font-size: 18px;
+}
+.theme-toggle:hover { transform: translateY(-3px); }

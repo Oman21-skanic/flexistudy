@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fraunces:ital,wght@0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
 .auth-page {
   display: flex;
@@ -41,16 +41,16 @@
 
 .al-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .al-li { width: 32px; height: 32px; border-radius: 10px; background: rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; }
-.al-name { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; color: #fff; }
+.al-name { font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 700; color: #fff; }
 
 .al-content { z-index: 1; }
 .al-tag { font-size: 10px; font-weight: 700; color: rgba(255,255,255,.6); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 14px; }
-.al-title { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 600; color: #fff; line-height: 1.2; margin-bottom: 14px; }
+.al-title { font-family: 'Poppins', sans-serif; font-size: 30px; font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 14px; }
 .al-desc { font-size: 13px; color: rgba(255,255,255,.75); line-height: 1.7; }
 
 .al-stats { display: flex; gap: 20px; z-index: 1; }
 .al-stat { background: rgba(255,255,255,.12); border-radius: 12px; padding: 14px 16px; }
-.al-stat-n { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; color: #fff; }
+.al-stat-n { font-family: 'Poppins', sans-serif; font-size: 22px; font-weight: 700; color: #fff; }
 .al-stat-l { font-size: 11px; color: rgba(255,255,255,.65); margin-top: 2px; }
 
 /* RIGHT PANEL */
@@ -80,7 +80,7 @@
 }
 
 .card-illo { text-align: center; font-size: 42px; margin-bottom: 16px; }
-.card-title { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 600; color: var(--t); text-align: center; margin-bottom: 4px; }
+.card-title { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; color: var(--t); text-align: center; margin-bottom: 4px; }
 .card-sub { font-size: 12px; color: var(--ts); text-align: center; margin-bottom: 24px; }
 
 .step-indicator { display: flex; gap: 6px; justify-content: center; margin-bottom: 20px; }
@@ -98,7 +98,7 @@
   padding: 10px 13px;
   font-size: 13px;
   color: var(--t);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Poppins', sans-serif;
   outline: none;
   transition: border-color .2s, background .25s;
 }
@@ -121,7 +121,7 @@
   cursor: pointer;
   margin-bottom: 16px;
   transition: background .2s, transform .15s;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 .btn-full:hover { background: var(--p2); transform: scale(1.02); }
 .btn-full:disabled { opacity: .6; cursor: not-allowed; transform: none; }
