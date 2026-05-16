@@ -1,7 +1,7 @@
 /* Module Detail Page - Two Column Layout */
 .module-detail-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--bg, #f0f9ff) 0%, var(--bg, #f3f4f6) 100%);
+  background: var(--bg);
   padding: 20px;
   font-family: 'Poppins', sans-serif;
 }
@@ -61,9 +61,9 @@
 
 
 .module-left-sidebar {
-  background: var(--card-bg, #fff);
+  background: var(--card-bg);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: var(--shadow);
   padding: 12px;
   height: fit-content;
   position: sticky;
@@ -98,11 +98,11 @@
 }
 
 .content-header {
-  background: var(--card-bg, #fff);
+  background: var(--card-bg);
   padding: 24px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border-left: 6px solid var(--p, #2563eb);
+  box-shadow: var(--shadow);
+  border-left: 6px solid var(--p);
 }
 
 /* TTS Player */
@@ -110,10 +110,10 @@
   display: flex;
   gap: 16px;
   align-items: center;
-  background: var(--card-bg, #fff);
+  background: var(--card-bg);
   padding: 12px 16px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: var(--shadow);
   margin: 18px 0 16px 0;
   position: relative; /* static in-flow between header and content */
   width: 100%;
@@ -136,10 +136,11 @@
 .tts-select {
   width: 88px;
   padding: 6px 8px;
-  border: 1px solid var(--border,#e5e7eb);
+  border: 1px solid var(--border);
   border-radius: 6px;
   font-size: 13px;
-  background: white;
+  background: var(--w);
+  color: var(--t);
 }
 .tts-voices { display:flex; gap:8px; flex-wrap:wrap; }
 
@@ -195,7 +196,7 @@
   margin: 0 0 8px 0;
   font-size: 28px;
   font-weight: 700;
-  color: var(--t, #1f2937);
+  color: var(--t);
 }
 
 .breadcrumb {
@@ -209,9 +210,9 @@
 
 /* Materi Card */
 .materi-card {
-  background: var(--card-bg, #fff);
+  background: var(--card-bg);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow);
   padding: 28px;
   line-height: 1.8;
 }
@@ -225,14 +226,14 @@
   align-items: flex-start;
   margin-bottom: 24px;
   padding-bottom: 16px;
-  border-bottom: 2px solid var(--border, #e5e7eb);
+  border-bottom: 2px solid var(--border);
 }
 
 .materi-title h2 {
   margin: 0;
   font-size: 22px;
   font-weight: 700;
-  color: var(--t, #1f2937);
+  color: var(--t);
   flex: 1;
 }
 
@@ -254,7 +255,7 @@
 .materi-p {
   margin: 0 0 16px 0;
   font-size: 14px;
-  color: var(--t, #1f2937);
+  color: var(--t);
   line-height: 1.8;
 }
 
@@ -269,7 +270,7 @@
   margin: 20px 0 10px 0;
   font-size: 15px;
   font-weight: 700;
-  color: var(--t, #1f2937);
+  color: var(--t);
 }
 
 .materi-h5 {
@@ -284,7 +285,7 @@
 .materi-li {
   margin: 0 0 8px 20px;
   font-size: 14px;
-  color: var(--t, #1f2937);
+  color: var(--t);
   list-style: disc;
 }
 
@@ -323,7 +324,7 @@
 }
 
 .result-box {
-  background: white;
+  background: var(--w);
   padding: 16px;
   border-radius: 6px;
 }
@@ -358,25 +359,98 @@
   font-family: 'Poppins', sans-serif;
 }
 
+/* Modern Professional Buttons */
+/* Professional High-Contrast Buttons (Light Theme) */
 .btn-primary {
-  background: var(--p, #2563eb);
-  color: white;
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  border: none !important;
   flex: 1;
+  font-weight: 700 !important;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  transition: all 0.2s ease;
 }
 
 .btn-primary:hover {
+  background-color: #1e3a8a !important; /* Deeper Blue */
+  color: #ffffff !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
 }
 
-.btn-primary:active {
-  transform: translateY(0);
+.btn-ghost {
+  background-color: #ffffff !important;
+  color: #2563eb !important;
+  border: 2px solid #2563eb !important;
+  flex: 1;
+  font-weight: 700 !important;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.btn-ghost:hover {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+}
+
+/* Dark Mode: Vibrant and distinct for pitch black background */
+[data-theme="dark"] .btn-primary {
+  background-color: #fbbf24 !important; /* Amber */
+  color: #000000 !important;
+  box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+}
+
+[data-theme="dark"] .btn-primary:hover {
+  background-color: #f59e0b !important;
+  color: #000000 !important;
+}
+
+[data-theme="dark"] .btn-ghost {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+
+[data-theme="dark"] .btn-ghost:hover {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Dark Mode Overrides for Submodule Sidebar - ABSOLUTE CONTRAST */
+[data-theme="dark"] .submod-btn {
+  background-color: #050505 !important;
+  border-color: #333333 !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .submod-btn.active {
+  background-color: #fbbf24 !important; /* AMBER YELLOW */
+  color: #000000 !important; /* PURE BLACK TEXT */
+  border-color: #fbbf24 !important;
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.2) !important;
+}
+
+[data-theme="dark"] .submod-label div,
+[data-theme="dark"] .submod-label small {
+  color: inherit !important;
+}
+
+[data-theme="dark"] .submod-badge {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .submod-btn.active .submod-badge {
+  background-color: #000000 !important;
+  color: #fbbf24 !important;
 }
 
 .btn-secondary {
-  background: white;
-  color: var(--p, #2563eb);
-  border: 2px solid var(--p, #2563eb);
+  background: var(--w);
+  color: var(--p);
+  border: 2px solid var(--p);
   flex: 1;
 }
 
@@ -395,9 +469,9 @@
 
 /* Sidebar */
 .module-sidebar {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow);
   padding: 16px;
   height: fit-content;
   position: sticky;
@@ -501,7 +575,7 @@
   margin: 0 0 4px 0;
   font-size: 14px;
   font-weight: 700;
-  color: var(--t, #1f2937);
+  color: var(--t);
 }
 
 .sidebar-progress {
@@ -532,25 +606,27 @@
   align-items: center;
   gap: 12px;
   padding: 12px;
-  background: var(--card-bg, #f9fafb);
-  border: 2px solid var(--border, #e5e7eb);
-  border-radius: 8px;
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: 'Poppins', sans-serif;
   text-align: left;
   width: 100%;
+  color: var(--t);
 }
 
-.submod-btn:hover:not(.locked) {
-  border-color: var(--p, #2563eb);
-  background: var(--p, #2563eb)05;
+.submod-btn:hover:not(.locked):not(.active) {
+  border-color: var(--p);
+  background: rgba(var(--p-rgb), 0.05);
 }
 
 .submod-btn.active {
-  background: var(--p, #2563eb);
-  color: white;
-  border-color: var(--p, #2563eb);
+  background: #f0f7ff; /* Soft Light Blue */
+  color: #1e40af; /* Deep Blue Text */
+  border-color: #3b82f6;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
 }
 
 .submod-btn.locked {
@@ -563,19 +639,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: white;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: #e5e7eb;
   font-weight: 700;
   font-size: 14px;
-  color: var(--p, #2563eb);
+  color: #4b5563;
   flex-shrink: 0;
+  transition: all 0.2s;
 }
 
 .submod-btn.active .submod-badge {
-  background: rgba(255, 255, 255, 0.3);
-  color: white;
+  background: #3b82f6;
+  color: #ffffff;
 }
 
 .submod-label {

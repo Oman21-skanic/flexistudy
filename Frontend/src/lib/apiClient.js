@@ -22,14 +22,48 @@ export const api = {
     return data;
   },
 
-  register: async (payload) => {
-    const res = await fetch(`${API_URL}/register`, {
+  registerRequest: async (payload) => {
+    const res = await fetch(`${API_URL}/register/request`, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify(payload)
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'Registration failed');
+    if (!res.ok) throw new Error(data.message || 'OTP request failed');
+    return data;
+  },
+
+  registerVerify: async (email, otp) => {
+    const res = await fetch(`${API_URL}/register/verify`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({ email, otp })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Verification failed');
+    localStorage.setItem('flexistudy_token', data.token);
+    return data;
+  },
+
+  forgotPassword: async (email) => {
+    const res = await fetch(`${API_URL}/auth/forgot-password`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'OTP request failed');
+    return data;
+  },
+
+  resetPassword: async (email, otp, newPassword) => {
+    const res = await fetch(`${API_URL}/auth/reset-password`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({ email, otp, newPassword })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Password reset failed');
     return data;
   },
 

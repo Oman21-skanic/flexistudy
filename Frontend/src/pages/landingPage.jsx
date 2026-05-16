@@ -3,9 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useApp } from '../App';
 import '../App.css';
 import logo from '../assets/logo.png';
+import NavControls from '../components/GlobalControls';
 
 const LandingPage = () => {
-  const { user, darkMode, setDarkMode, ttsEnabled, setTtsEnabled, highContrast, setHighContrast, speak, logout } = useApp();
+  const { user, theme, toggleTheme, ttsEnabled, setTtsEnabled, speak, logout } = useApp();
   const navigate = useNavigate();
 
   const handleTTS = () => {
@@ -30,32 +31,10 @@ const LandingPage = () => {
         </div>
 
         <div className="nb">
-          {/* Dark Mode Toggle */}
-          <button
-            className={`nb-icon${darkMode ? ' active' : ''}`}
-            onClick={() => setDarkMode(v => !v)}
-            title={darkMode ? "Mode Terang" : "Mode Gelap"}
-          >
-            {darkMode ? '☀️' : '🌙'}
-          </button>
 
-          {/* High Contrast Toggle */}
-          <button
-            className={`nb-icon${highContrast ? ' active' : ''}`}
-            onClick={() => setHighContrast(v => !v)}
-            title="Kontras Tinggi"
-          >
-            🔆
-          </button>
 
-          {/* TTS Toggle */}
-          <button
-            className={`nb-icon${ttsEnabled ? ' active' : ''}`}
-            onClick={handleTTS}
-            title={ttsEnabled ? "Matikan Text-to-Speech" : "Aktifkan Text-to-Speech"}
-          >
-            {ttsEnabled ? '🔊' : '🔇'}
-          </button>
+
+          <NavControls />
 
           {user ? (
             <>

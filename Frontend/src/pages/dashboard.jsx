@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../App';
 import './dashboard.css';
 import logo from '../assets/logo.png';
+import NavControls from '../components/GlobalControls';
 
 const ACTIVITIES = [
   { emoji: '✅', text: 'Menyelesaikan latihan Aljabar — Bab 3', time: '2 jam lalu', xp: '+20 XP' },
@@ -92,7 +93,7 @@ const Dashboard = () => {
             <div className="sb-name">{user?.name || "Siswa"}</div>
             <div className="sb-kelas">{user?.kelas || "Kelas Umum"}</div>
           </div>
-          <button className="sb-logout" onClick={() => { logout(); navigate('/'); }} title="Keluar">↩</button>
+          <button className="sb-logout" onClick={() => { speak('Keluar dari aplikasi'); logout(); navigate('/'); }} title="Keluar">↩</button>
         </div>
       </aside>
 
@@ -103,6 +104,7 @@ const Dashboard = () => {
             <div className="dash-sub">Ayo lanjutkan belajar hari ini</div>
           </div>
           <div className="dash-header-right">
+            <NavControls />
             <Link to="/" className="dash-home-btn">← Beranda</Link>
           </div>
         </div>
@@ -129,7 +131,7 @@ const Dashboard = () => {
             <div className="section-title">📚 Progress Mata Pelajaran</div>
             <div className="subject-grid">
               {SUBJECTS.map(s => (
-                <div key={s.id} className="subj-card" onClick={() => speak(`${s.title}. ${s.topic}. Progress ${s.progress} persen.`)}>
+                <div key={s.id} className="subj-card" onClick={() => speak(`${s.title}. Materi ${s.topic}. Progres belajar anda ${s.progress} persen.`)}>
                   <div className="subj-head">
                     <div className="subj-icon" style={{ background: s.color }}>{s.emoji}</div>
                     <div>

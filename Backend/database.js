@@ -36,7 +36,10 @@ const User = sequelize.define('User', {
   streak: { type: DataTypes.INTEGER, defaultValue: 0 },
   progress_ipa: { type: DataTypes.INTEGER, defaultValue: 0 },
   progress_b_indonesia: { type: DataTypes.INTEGER, defaultValue: 0 },
-  progress_b_inggris: { type: DataTypes.INTEGER, defaultValue: 0 }
+  progress_b_inggris: { type: DataTypes.INTEGER, defaultValue: 0 },
+  otp_code: { type: DataTypes.STRING, allowNull: true },
+  otp_expiry: { type: DataTypes.DATE, allowNull: true },
+  is_verified: { type: DataTypes.BOOLEAN, defaultValue: false }
 }, { underscored: true });
 
 const Subject = sequelize.define('Subject', {

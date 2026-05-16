@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/landingPage";
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
+import ForgotPassword from "./pages/auth/forgotPassword";
 import Dashboard from "./pages/dashboard";
 import MateriIPA from "./pages/MateriIPA";
 import MateriBahasaIndonesia from "./pages/MateriBahasaIndonesia";
@@ -25,7 +26,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   const [ttsEnabled, setTtsEnabled] = useState(() => localStorage.getItem("fs_tts") === "1");
-  const [highContrast, setHighContrast] = useState(() => localStorage.getItem("fs_hc") === "1");
+  const [theme, setTheme] = useState(() => localStorage.getItem("fs_theme") || "light");
 
   // INITIAL LOAD
   useEffect(() => {
@@ -61,10 +62,9 @@ function App() {
 
   useEffect(() => {
     const root = document.documentElement;
-    root.setAttribute("data-theme", "light");
-    root.setAttribute("data-hc", highContrast ? "1" : "0");
-    localStorage.setItem("fs_hc", highContrast ? "1" : "0");
-  }, [highContrast]);
+    root.setAttribute("data-theme", theme);
+    localStorage.setItem("fs_theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     localStorage.setItem("fs_tts", ttsEnabled ? "1" : "0");
@@ -134,8 +134,9 @@ function App() {
     refreshUserData,
     ttsEnabled,
     setTtsEnabled,
-    highContrast,
-    setHighContrast,
+    theme,
+    setTheme,
+    toggleTheme: () => setTheme(prev => prev === 'light' ? 'dark' : 'light'),
     speak,
     loading
   };
@@ -149,6 +150,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/module/:moduleId" element={<ModuleDetail />} />

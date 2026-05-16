@@ -3,11 +3,44 @@ const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 const { sequelize, User, Subject, Module, SubModule, Activity, QuizAttempt } = require('./database');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 const SECRET_KEY = process.env.JWT_SECRET || 'flexistudy_secret_key_123';
+
+// MAIL TRANSPORTER (Configurable via .env)
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASS
+  }
+});
+
+const sendOTP = async (email, otp) => {
+  try {
+    const mailOptions = {
+      from: `"FlexiStudy" <${process.env.MAIL_USER}>`,
+      to: email,
+      subject: 'OTP Verifikasi FlexiStudy',
+      text: `Kode OTP Anda adalah: ${otp}. Kode ini berlaku selama 10 menit.`
+    };
+    
+    // If no mail config, just log to console
+    if (!process.env.MAIL_USER) {
+      console.log(`[OTP DEBUG] To: ${email}, OTP: ${otp}`);
+      return;
+    }
+    
+    await transporter.sendMail(mailOptions);
+    console.log(`Email sent to ${email}`);
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw error; // Re-throw to be caught by the route handler
+  }
+};
 
 app.use(cors({
   origin: true, // Allow all origins for now to avoid CORS blocking during setup
@@ -29,15 +62,79 @@ const authenticate = (req, res, next) => {
 };
 
 // AUTH ROUTES
-app.post('/api/register', async (req, res) => {
+app.post('/api/register/request', async (req, res) => {
   try {
     const { email, password, name, role, kelas } = req.body;
     const existing = await User.findByPk(email);
-    if (existing) return res.status(400).json({ message: 'Email already registered' });
+    
+    if (existing && existing.is_verified) {
+      return res.status(400).json({ message: 'Email already registered and verified' });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpiry = new Date(Date.now() + 10 * 60000); // 10 mins
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ email, password: hashedPassword, name, role, kelas });
+
+    if (existing) {
+      await existing.update({ password: hashedPassword, name, role, kelas, otp_code: otp, otp_expiry: otpExpiry });
+    } else {
+      await User.create({ email, password: hashedPassword, name, role, kelas, otp_code: otp, otp_expiry: otpExpiry, is_verified: false });
+    }
+
+    await sendOTP(email, otp);
+    res.json({ message: 'OTP sent to your email' });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+app.post('/api/register/verify', async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    const user = await User.findByPk(email);
+    
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (user.otp_code !== otp || new Date() > user.otp_expiry) {
+      return res.status(400).json({ message: 'Invalid or expired OTP' });
+    }
+
+    await user.update({ is_verified: true, otp_code: null, otp_expiry: null });
     await Activity.create({ user_email: email, emoji: '✨', text: 'Mendaftar ke FlexiStudy', xp: '+0 XP' });
-    res.json({ message: 'Registration successful', email: user.email });
+    
+    const token = jwt.sign({ email: user.email, role: user.role }, SECRET_KEY, { expiresIn: '7d' });
+    res.json({ message: 'Verification successful', token, user: { email: user.email, name: user.name, role: user.role, kelas: user.kelas, xp: user.xp, level: user.level } });
+  } catch (err) {
+    console.error('Registration Verify Error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/auth/forgot-password', async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findByPk(email);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpiry = new Date(Date.now() + 10 * 60000);
+
+    await user.update({ otp_code: otp, otp_expiry: otpExpiry });
+    await sendOTP(email, otp);
+    res.json({ message: 'OTP sent to your email' });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+app.post('/api/auth/reset-password', async (req, res) => {
+  try {
+    const { email, otp, newPassword } = req.body;
+    const user = await User.findByPk(email);
+    
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (user.otp_code !== otp || new Date() > user.otp_expiry) {
+      return res.status(400).json({ message: 'Invalid or expired OTP' });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await user.update({ password: hashedPassword, otp_code: null, otp_expiry: null });
+    res.json({ message: 'Password reset successful' });
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
@@ -46,6 +143,11 @@ app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findByPk(email);
     if (!user) return res.status(400).json({ message: 'User not found' });
+    
+    if (user.role === 'student' && !user.is_verified) {
+      return res.status(401).json({ message: 'Email not verified. Please register again to get a new OTP.' });
+    }
+
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) return res.status(400).json({ message: 'Invalid password' });
     const token = jwt.sign({ email: user.email, role: user.role }, SECRET_KEY, { expiresIn: '7d' });
@@ -179,7 +281,7 @@ app.get('/api/users', async (req, res) => {
 });
 
 // START SERVER
-sequelize.sync().then(async () => {
+sequelize.sync({ alter: true }).then(async () => {
   console.log('Database connected & synced');
   const subCount = await Subject.count();
   if (subCount === 0) {
@@ -189,11 +291,11 @@ sequelize.sync().then(async () => {
       { id: 'b_inggris', name: 'Bahasa Inggris', emoji: '🌐', color: '#FEF3C7', initials: 'E' }
     ]);
     const adminHash = await bcrypt.hash('admin123', 10);
-    await User.create({ email: 'admin@flexistudy.com', password: adminHash, name: 'Super Admin', role: 'admin' });
+    await User.create({ email: 'admin@flexistudy.com', password: adminHash, name: 'Super Admin', role: 'admin', is_verified: true });
     const studentHash = await bcrypt.hash('siswa123', 10);
     await User.create({
       email: 'siswa@flexistudy.com', password: studentHash, name: 'Budi Siswa',
-      role: 'student', kelas: '12 SMK', xp: 150, level: 1, streak: 5
+      role: 'student', kelas: '12 SMK', xp: 150, level: 1, streak: 5, is_verified: true
     });
     console.log('Dummy data seeded (Admin & Siswa)');
   }

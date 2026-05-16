@@ -1,16 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-:root {
-  --admin-primary: #2563eb;
-  --admin-primary-soft: #eff6ff;
-  --admin-bg: #f8fafc;
-  --admin-card-bg: #ffffff;
-  --admin-text-main: #1e293b;
-  --admin-text-sub: #64748b;
-  --admin-border: #e2e8f0;
-  --admin-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-  --admin-accent: #f59e0b;
-}
+/* Using global theme variables from index.css */
 
 .admin-page {
   display: flex;
@@ -23,7 +13,7 @@
 /* SIDEBAR */
 .admin-sidebar {
   width: 280px;
-  background: white;
+  background: var(--admin-card-bg);
   border-right: 1px solid var(--admin-border);
   display: flex;
   flex-direction: column;
@@ -47,7 +37,7 @@
 .admin-sb-logo span {
   font-size: 20px;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--admin-text-main);
 }
 
 .admin-sb-logo span span {
@@ -86,8 +76,8 @@
 }
 
 .sb-item.active {
-  background: var(--admin-primary);
-  color: white;
+  background: var(--admin-primary, #2563eb);
+  color: #fff;
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
 }
 
@@ -99,8 +89,8 @@
 .btn-logout {
   width: 100%;
   padding: 12px;
-  border: 1px solid #fee2e2;
-  background: #fff;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  background: var(--admin-card-bg);
   color: #ef4444;
   border-radius: 10px;
   cursor: pointer;
@@ -123,6 +113,9 @@
 
 .admin-header {
   margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .admin-title {
@@ -143,7 +136,7 @@
   padding: 32px;
   box-shadow: var(--admin-shadow);
   margin-bottom: 32px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--admin-border);
 }
 
 .admin-card h2 {
@@ -180,6 +173,8 @@
   font-family: inherit;
   font-size: 15px;
   transition: all 0.2s;
+  background: var(--admin-card-bg);
+  color: var(--admin-text-main);
 }
 
 .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
@@ -201,7 +196,7 @@
 }
 
 .subject-mini-card {
-  background: white;
+  background: var(--admin-card-bg);
   padding: 24px;
   border-radius: 20px;
   display: flex;
@@ -300,9 +295,40 @@
   transition: all 0.2s;
 }
 
+[data-theme="dark"] .btn-ghost {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: none !important;
+}
+
 .btn-ghost:hover {
   background: var(--admin-primary);
   color: white;
+}
+
+.btn-ghost-sm {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: var(--t);
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+
+.btn-ghost-sm:hover {
+  background: var(--admin-primary-soft);
+  border-color: var(--admin-primary);
+  color: var(--admin-primary);
+}
+
+[data-theme="dark"] .btn-ghost-sm {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #333333 !important;
 }
 
 /* SUBMODULE MANAGER */
@@ -313,28 +339,58 @@
 }
 
 .submod-mini-item {
-  padding: 20px !important;
-  border-radius: 16px !important;
+  padding: 12px 16px !important;
+  border-radius: 12px !important;
   transition: all 0.2s !important;
   box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  color: var(--admin-text-main);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
 }
 
 .submod-mini-item.active {
   border-color: var(--admin-primary) !important;
   background: var(--admin-primary-soft) !important;
+  color: var(--admin-primary) !important;
+}
+
+/* Light Mode specific fixes for active text */
+[data-theme="light"] .submod-mini-item.active h4,
+[data-theme="light"] .submod-mini-item.active p {
+  color: var(--admin-primary) !important;
+}
+
+/* FORCED DARK MODE VISIBILITY */
+[data-theme="dark"] .submod-mini-item,
+[data-theme="dark"] .submod-mini-item *,
+[data-theme="dark"] .admin-card,
+[data-theme="dark"] .admin-card * {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .submod-mini-item.active,
+[data-theme="dark"] .submod-mini-item.active * {
+  color: #000000 !important;
+  background-color: #fbbf24 !important; /* Amber for Dark Mode Active */
 }
 
 /* QUESTION BOXES */
 .question-item-mini {
-  background: #f8fafc;
+  background: var(--admin-bg);
   padding: 20px;
   border-radius: 16px;
   border-left: 4px solid var(--admin-primary);
+  color: var(--admin-text-main);
+  border: 1px solid var(--admin-border);
 }
 
 .question-form-box {
-  background: white;
-  border: 2px solid var(--admin-primary-soft);
+  background: var(--admin-card-bg);
+  border: 2px solid var(--admin-border);
   padding: 32px;
   border-radius: 20px;
 }
@@ -356,7 +412,7 @@
 
 .admin-table td {
   padding: 20px 16px;
-  background: white;
+  background: var(--admin-card-bg);
   border-top: 1px solid var(--admin-border);
   border-bottom: 1px solid var(--admin-border);
 }
@@ -390,7 +446,7 @@
 }
 
 .modal-content {
-  background: white;
+  background: var(--admin-card-bg);
   width: 100%;
   max-width: 800px;
   max-height: 90vh;
@@ -413,7 +469,7 @@
   align-items: center;
   position: sticky;
   top: 0;
-  background: white;
+  background: var(--admin-card-bg);
   z-index: 10;
 }
 

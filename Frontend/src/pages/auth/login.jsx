@@ -8,7 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useApp(); 
+  const { login, speak } = useApp(); 
   const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
@@ -21,11 +21,14 @@ const Login = () => {
     try {
       const res = await login(email, password);
       if (res.user.role === 'admin') {
+        speak(`Selamat datang admin ${res.user.name}`);
         navigate("/admin");
       } else {
+        speak(`Selamat datang ${res.user.name}. Mari lanjutkan belajarmu.`);
         navigate("/dashboard");
       }
     } catch (err) {
+      speak("Gagal masuk. Periksa kembali email dan kata sandi anda.");
       alert("Gagal Login: " + err.message);
     } finally {
       setLoading(false);
@@ -63,13 +66,15 @@ const Login = () => {
             />
           </div>
           
-          <div className="forgot">Lupa password?</div>
+          <div className="forgot">
+            <Link to="/forgot-password" style={{ color: 'inherit', textDecoration: 'none' }}>Lupa password?</Link>
+          </div>
           
           <button onClick={handleLogin} className="btn-full" disabled={loading}>
             {loading ? "Memuat..." : "Masuk ke FlexiStudy"}
           </button>
 
-          <div className="switch">
+          <div className="switch" onClick={() => speak("Daftar akun baru")}>
             Belum punya akun? <Link to="/register"><span>Daftar gratis</span></Link>
           </div>
         </div>

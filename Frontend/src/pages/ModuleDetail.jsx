@@ -4,6 +4,7 @@ import { useApp } from '../App';
 import { demoModules } from '../data/mockLearningData';
 import { getMaterialContent } from '../data/materiContent';
 import { api } from '../lib/apiClient';
+import NavControls from '../components/GlobalControls';
 import '../styles/module-detail.css';
 
 export function ModuleDetail() {
@@ -175,9 +176,12 @@ export function ModuleDetail() {
   return (
     <div className="module-detail-page">
       <div className="module-detail-container">
-        <button className="btn-back-top" onClick={() => navigate('/dashboard')}>
-          ← Kembali ke Dashboard
-        </button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+          <button className="btn-back-top" onClick={() => navigate('/dashboard')} style={{ marginBottom: 0 }}>
+            ← Kembali ke Dashboard
+          </button>
+          <NavControls />
+        </div>
 
         <div className={`module-layout ${leftOpen ? '' : 'left-collapsed'} ${rightOpen ? '' : 'right-collapsed'}`}>
           <aside className={`module-left-sidebar ${leftOpen ? '' : 'collapsed'}`}>
